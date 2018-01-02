@@ -1,0 +1,35 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: xxl-job-admin
+  labels:
+    k8s-app: xxl-job-admin
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: xxl-job-admin
+    spec:
+      containers:
+      - name: xxl-job-admin
+        image: registry.cn-qingdao.aliyuncs.com/quyiyuan/xxl-job-admin:0.0.1
+        ports:
+        - containerPort: 8080
+      imagePullSecrets:
+      - name: regsecret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: xxl-job-admin
+  labels:
+    name: xxl-job-admin
+spec:
+  type: NodePort
+  ports:
+  - port: 8080
+    targetPort: 8080
+    nodePort: 30091
+  selector:
+    name: xxl-job-admin

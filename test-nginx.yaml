@@ -1,0 +1,16 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: dep-nginx
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        run: pod-nginx
+    spec:
+      containers:
+      - name: nginx
+        image: registry-vpc.cn-shanghai.aliyuncs.com/papillonyispace/openimages:nginx
+        ports:
+        - containerPort: 80

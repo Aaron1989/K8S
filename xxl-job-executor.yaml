@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: xxl-job-executor
+  labels:
+    k8s-app: xxl-job-executor
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: xxl-job-executor
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: master-1
+      containers:
+      - name: xxl-job-executor
+        image: registry.cn-qingdao.aliyuncs.com/quyiyuan/xxl-job-executor:0.0.2
+        ports:
+        - containerPort: 8080
+      imagePullSecrets:
+      - name: regsecret
+---

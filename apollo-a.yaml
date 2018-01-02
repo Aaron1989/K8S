@@ -1,0 +1,141 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: apollo-configservice
+  labels:
+    name: apollo-configservice
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: apollo-configservice
+    spec:
+      containers:
+      - name: apollo-configservice
+        image: registry.cn-qingdao.aliyuncs.com/quyiyuan/apollo:Apollo-Configservice-test
+        ports:
+        - containerPort: 8080
+        env:
+        - name: ENV
+          value: pro
+        - name: spring_datasource_url
+          value: jdbc:mysql://db:3306/ApolloConfigDB?characterEncoding=utf8
+        - name: spring_datasource_password
+          value: root
+        - name: spring_datasource_username
+          value: root
+        - name: eureka.service.url
+          value: http://localhost:8080/eureka/
+      nodeSelector:
+        kubernetes.io/hostname: minion-2
+        beta.kubernetes.io/os: linux
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: apollo-configservice
+  labels:
+    name: apollo-configservice
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+  selector:
+    name: apollo-configservice
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: apollo-adminservice
+  labels:
+    name: apollo-adminservice
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: apollo-adminservice
+    spec:
+      containers:
+      - name: apollo-adminservice
+        image: registry.cn-qingdao.aliyuncs.com/quyiyuan/apollo:Apollo-Adminservice-test
+        ports:
+        - containerPort: 8090
+        env:
+        - name: ENV
+          value: pro
+        - name: spring_datasource_url
+          value: jdbc:mysql://db:3306/ApolloConfigDB?characterEncoding=utf8
+        - name: spring_datasource_password
+          value: root
+        - name: spring_datasource_username
+          value: root
+        - name: eureka.instance.hostname
+          value: apollo-configservice
+      nodeSelector:
+        kubernetes.io/hostname: minion-2
+        beta.kubernetes.io/os: linux
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: apollo-adminservice
+  labels:
+    name: apollo-adminservice
+spec:
+  type: NodePort
+  ports:
+  - port: 8090
+    targetPort: 8090
+    nodePort: 30010
+  selector:
+    name: apollo-adminservice
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: apollo-portal
+  labels:
+    name: apollo-portal
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: apollo-portal
+    spec:
+      containers:
+      - name: apollo-portal
+        image: registry.cn-qingdao.aliyuncs.com/quyiyuan/apollo:Apollo-Portal-test
+        ports:
+        - containerPort: 8080
+        env:
+        - name: ENV
+          value: pro
+        - name: spring_datasource_url
+          value: jdbc:mysql://db:3306/ApolloPortalDB?characterEncoding=utf8
+        - name: spring_datasource_password
+          value: root
+        - name: spring_datasource_username
+          value: root
+        - name: eureka.instance.hostname
+          value: apollo-configservice
+      nodeSelector:
+        kubernetes.io/hostname: minion-2
+        beta.kubernetes.io/os: linux
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: apollo-portal
+  labels:
+    name: apollo-portal
+spec:
+  type: NodePort
+  ports:
+  - port: 8070
+    targetPort: 8080
+    nodePort: 30090
+  selector:
+    name: apollo-portal

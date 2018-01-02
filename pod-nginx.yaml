@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  containers:
+  - name: nginx
+    image: registry-vpc.cn-shanghai.aliyuncs.com/papillonyispace/openimages:nginx
+    ports:
+    - containerPort: 80

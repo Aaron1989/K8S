@@ -1,0 +1,44 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: dba
+  labels:
+    name: dba
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: dba
+    spec:
+      containers:
+      - name: dba
+        image: registry-vpc.cn-shanghai.aliyuncs.com/papillonyispace/openimages:mysql
+        env:
+          - name: MYSQL_ROOT_PASSWORD
+            value: root
+        ports:
+        - containerPort: 3306
+        volumeMounts:
+        - mountPath: /docker-entrypoint-initdba.d
+          name: mysqlinit
+      volumes:
+        - name: mysqlinit
+          hostPath:
+            path: /root/apollo/scripts/sql-docker 
+      nodeSelector:
+        beta.kubernetes.io/os: linux
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: dba
+  labels:
+    name: dba
+spec:
+  ports:
+  - port: 3306
+    targetPort: 3306
+  selector:
+    name: dba
+

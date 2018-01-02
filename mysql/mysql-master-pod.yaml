@@ -1,0 +1,24 @@
+apiVersion: v1  
+kind: Pod  
+metadata:  
+  name: mysql-master  
+  labels:  
+    name: mysql-master  
+spec:
+  volumes:
+  - name: mysql
+    hostPath:
+      path: /data/mysql  
+  containers:  
+  - name: mysql-master  
+    image: registry-vpc.cn-shanghai.aliyuncs.com/papillonyispace/openimages:mysql 
+    volumeMounts:
+    - mountPath: /var/lib/mysql
+      name: mysql
+    env:  
+    - name: MYSQL_ROOT_PASSWORD  
+      value: "root"  
+    ports:  
+    -   
+      containerPort: 3306  
+      hostPort: 3306

@@ -1,0 +1,24 @@
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: traefik-ingress-kube-system
+  namespace: kube-system
+spec:
+  rules:
+  - host: www.quyiyuan.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: kubernetes-dashboard
+          servicePort: 80
+  - host: monitoring.quyiyuan.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: monitoring-grafana
+          servicePort: 80
+
+

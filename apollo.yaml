@@ -1,0 +1,181 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: apollo-configservice
+  labels:
+    name: apollo-configservice
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: apollo-configservice
+    spec:
+      containers:
+      - name: apollo-configservice
+        image: registry.cn-qingdao.aliyuncs.com/quyiyuan/apollo:Apollo-Configservice-v1.0.4
+        ports:
+        - containerPort: 8080
+        env:
+        - name: ENV
+          value: pro
+        - name: spring_datasource_url
+          value: jdbc:mysql://db:3306/apollo_config?characterEncoding=utf8
+        - name: spring_datasource_password
+          value: root
+        - name: spring_datasource_username
+          value: root
+        - name: eureka.service.url
+          value: http://localhost:8080/eureka/
+      nodeSelector:
+        beta.kubernetes.io/os: linux
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: apollo-configservice
+  labels:
+    name: apollo-configservice
+spec:
+  ports:
+  - port: 8080
+    targetPort: 8080
+  selector:
+    name: apollo-configservice
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: apollo-adminservice
+  labels:
+    name: apollo-adminservice
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: apollo-adminservice
+    spec:
+      containers:
+      - name: apollo-adminservice
+        image: registry.cn-qingdao.aliyuncs.com/quyiyuan/apollo:Apollo-Adminservice-v1.0.4
+        ports:
+        - containerPort: 8090
+        env:
+        - name: ENV
+          value: pro
+        - name: spring_datasource_url
+          value: jdbc:mysql://db:3306/apollo_config?characterEncoding=utf8
+        - name: spring_datasource_password
+          value: root
+        - name: spring_datasource_username
+          value: root
+        - name: eureka.instance.hostname
+          value: apollo-configservice
+      nodeSelector:
+        beta.kubernetes.io/os: linux
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: apollo-adminservice
+  labels:
+    name: apollo-adminservice
+spec:
+  ports:
+  - port: 8090
+    targetPort: 8090
+  selector:
+    name: apollo-adminservice
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: apollo-portal
+  labels:
+    name: apollo-portal
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: apollo-portal
+    spec:
+      containers:
+      - name: apollo-portal
+        image: registry.cn-qingdao.aliyuncs.com/quyiyuan/apollo:Apollo-Portal-v1.0.4
+        ports:
+        - containerPort: 8080
+        env:
+        - name: ENV
+          value: pro
+        - name: spring_datasource_url
+          value: jdbc:mysql://db:3306/apollo_portal?characterEncoding=utf8
+        - name: spring_datasource_password
+          value: root
+        - name: spring_datasource_username
+          value: root
+        - name: eureka.instance.hostname
+          value: apollo-configservice
+      nodeSelector:
+        beta.kubernetes.io/os: linux
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: apollo-portal
+  labels:
+    name: apollo-portal
+spec:
+  type: NodePort
+  ports:
+  - port: 8070
+    targetPort: 8080
+    nodePort: 30090
+  selector:
+    name: apollo-portal
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: db
+  labels:
+    name: db
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: db
+    spec:
+      containers:
+      - name: db
+        image: registry-vpc.cn-shanghai.aliyuncs.com/papillonyispace/openimages:mysql
+        env:
+          - name: MYSQL_ROOT_PASSWORD
+            value: root
+        ports:
+         - containerPort: 3306
+        volumeMounts:
+        - mountPath: /docker-entrypoint-initdb.d
+          name: mysqlinit
+      volumes:
+        - name: mysqlinit
+          hostPath:
+            path: /root/apollo/scripts/sql-docker 
+      nodeSelector:
+        beta.kubernetes.io/os: linux
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db
+  labels:
+    name: db
+spec:
+  ports:
+  - port: 3306
+    targetPort: 3306
+  selector:
+    name: db
+

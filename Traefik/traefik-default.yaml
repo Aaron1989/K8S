@@ -1,0 +1,21 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: traefik-ingress-default
+  namespace: default
+spec:
+  rules:
+  - host: m.quyiyuan.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: example-service
+          servicePort: 80
+  - host: jenkins.quyiyuan.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: jenkins
+          servicePort: 80
