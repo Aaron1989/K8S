@@ -1,0 +1,55 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: portia
+  labels:
+    name: portia
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: portia
+    spec:
+      containers:
+      - name: portia
+        image: scrapinghub/portia
+        ports:
+        - containerPort: 9001
+        volumeMounts:
+        - mountPath: /app/data/projects
+          name: portia
+      volumes:
+        - name: portia
+          hostPath:
+            path: /data/portia
+      nodeSelector:
+        beta.kubernetes.io/os: linux
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: portia
+  labels:
+    name: portia
+spec:
+  ports:
+  - port: 9001
+    targetPort: 9001
+  selector:
+    name: portia
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: traefik-ingress-portia
+  namespace: default
+spec:
+  rules:
+  - host: portia.quyiyuan.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: portia
+          servicePort: 9001
