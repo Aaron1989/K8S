@@ -24,8 +24,8 @@ spec:
           hostPath:
             path: /data/portia
       nodeSelector:
-        beta.kubernetes.io/os: linux
-        master: false
+      - beta.kubernetes.io/os: linux
+      - master: false
 ---
 apiVersion: v1
 kind: Service
