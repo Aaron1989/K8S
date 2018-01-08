@@ -24,7 +24,7 @@ spec:
           hostPath:
             path: /data/portia
       nodeSelector:
-        master: false
+        master: "false"
 ---
 apiVersion: v1
 kind: Service
