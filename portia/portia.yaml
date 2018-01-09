@@ -33,9 +33,11 @@ metadata:
   labels:
     name: portia
 spec:
+  type: NodePort
   ports:
   - port: 9001
     targetPort: 9001
+    nodePort: 39001
   selector:
     name: portia
 ---
