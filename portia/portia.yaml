@@ -42,14 +42,14 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: traefik-ingress-portia
-  namespace: default
+  name: istio-portia
+  annotations:
+    kubernetes.io/ingress.class: "istio"
 spec:
   rules:
-  - host: portia.quyiyuan.com
-    http:
+  - http:
       paths:
-      - path: /
+      - path: /static/
         backend:
           serviceName: portia
           servicePort: 9001
