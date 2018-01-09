@@ -42,7 +42,7 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: istio-portia
+  name: gateway
   annotations:
     kubernetes.io/ingress.class: "istio"
 spec:
