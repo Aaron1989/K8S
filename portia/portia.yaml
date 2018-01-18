@@ -16,15 +16,15 @@ spec:
         image: scrapinghub/portia
         ports:
         - containerPort: 9001
-        volumeMounts:
-        - mountPath: /app/data/projects
-          name: portia
-      volumes:
-        - name: portia
-          hostPath:
-            path: /data/portia
-      nodeSelector:
-        master: "false"
+        # volumeMounts:
+      #   - mountPath: /app/data/projects
+      #     name: portia
+      # volumes:
+      #   - name: portia
+      #     hostPath:
+      #       path: /data/portia
+      # nodeSelector:
+      #   master: "false"
 ---
 apiVersion: v1
 kind: Service
@@ -37,21 +37,21 @@ spec:
   ports:
   - port: 9001
     targetPort: 9001
-    nodePort: 39001
+    nodePort: 30001
   selector:
     name: portia
----
-apiVersion: extensions/v1beta1
-kind: Ingress
-metadata:
-  name: traefik-ingress-portia
-  namespace: default
-spec:
-  rules:
-  - host: portia.quyiyuan.com
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: portia
-          servicePort: 9001
+# ---
+# apiVersion: extensions/v1beta1
+# kind: Ingress
+# metadata:
+#   name: traefik-ingress-portia
+#   namespace: default
+# spec:
+#   rules:
+#   - host: portia.quyiyuan.com
+#     http:
+#       paths:
+#       - path: /
+#         backend:
+#           serviceName: portia
+#           servicePort: 9001

@@ -55,25 +55,3 @@ spec:
             mountPath: /var/jenkins_home
       securityContext:
         fsGroup: 1000
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: jenkins
-  annotations:
-spec:
-  type: LoadBalancer
-  selector:
-    name: jenkins
-  externalTrafficPolicy: Local
-  ports:
-    -
-      name: http
-      port: 80
-      targetPort: 8080
-      protocol: TCP
-    -
-      name: slave
-      port: 50000
-      protocol: TCP
