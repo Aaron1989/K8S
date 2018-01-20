@@ -51,7 +51,17 @@ spec:
             initialDelaySeconds: 60
             timeoutSeconds: 5
           volumeMounts:
-          - name: jenkins
+          - name: jenkins-home
             mountPath: /var/jenkins_home
       securityContext:
         fsGroup: 1000
+    volumeClaimTemplates:
+    - metadata:
+        name: jenkins-home
+        # annotations:
+        #   volume.beta.kubernetes.io/storage-class: anything
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 10Gi
