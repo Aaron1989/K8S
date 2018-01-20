@@ -10,4 +10,4 @@ spec:
   persistentVolumeReclaimPolicy: Recycle
   nfs:
     path: /
-    server: 314404a6c3-vpa13.cn-shanghai.nas.aliyuncs.com
+    server: 3482149d22-bxu1.cn-shanghai.nas.aliyuncs.com
