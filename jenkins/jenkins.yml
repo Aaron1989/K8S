@@ -23,6 +23,9 @@ spec:
       - name: jenkins
         hostPath:
           path: /data/jenkins
+      nodeSelector:
+        kubernetes.io/hostname: 10.2.0.1
+        master: "false"
       containers:
         - name: jenkins
           image: jenkins/jenkins:lts-alpine
@@ -42,7 +45,7 @@ spec:
             httpGet:
               path: /login
               port: 8080
-            initialDelaySeconds: 60
+            initialDelaySeconds: 600
             timeoutSeconds: 5
           readinessProbe:
             httpGet:
