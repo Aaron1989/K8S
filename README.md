@@ -1,7 +1,11 @@
 **学习文档：**
 https://jimmysong.io/kubernetes-handbook/
 
+![基础架构](https://github.com/Aaron1989/K8S/blob/master/Screenshots/%E5%9F%BA%E7%A1%80%E6%9E%B6%E6%9E%84.png)
+
 ![基础组件](https://github.com/Aaron1989/K8S/blob/master/Screenshots/%E5%9F%BA%E7%A1%80%E7%BB%84%E4%BB%B6.png)
+
+![云端高可用架构](https://github.com/Aaron1989/K8S/blob/master/Screenshots/%E4%BA%91%E7%AB%AF%E9%AB%98%E5%8F%AF%E7%94%A8%E6%9E%B6%E6%9E%84.png)
 
 **常用命令**：
 
