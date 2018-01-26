@@ -1,6 +1,8 @@
 **学习文档：**
 https://jimmysong.io/kubernetes-handbook/
 
+![这里写图片描述](http://avatar.csdn.net/2/D/B/3_itmyhome.jpg)
+
 **常用命令**：
 
 **查看nodes**-
