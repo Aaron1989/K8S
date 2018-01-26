@@ -1,7 +1,7 @@
 **学习文档：**
 https://jimmysong.io/kubernetes-handbook/
 
-![这里写图片描述](http://avatar.csdn.net/2/D/B/3_itmyhome.jpg)
+![基础组件](https://github.com/Aaron1989/K8S/blob/master/Screenshots/%E5%9F%BA%E7%A1%80%E7%BB%84%E4%BB%B6.png)
 
 **常用命令**：
 
