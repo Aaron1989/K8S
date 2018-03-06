@@ -20,13 +20,14 @@ http://www.cnblogs.com/softlin/p/5675890.html
 **node：**
 
 192.168.30.245||192.168.1.20（docker-2）
+
 配置文件：/etc/etcd/etcd.conf、/etc/kubernetes/config、/etc/kubernetes/kubelet
 
 
 
 **重点：**
 
-1）pod=容器集合（docker images）；
+1）pod=容器集合（docker images）
 
 2）deployment=进程、服务（docker ps）
 
@@ -38,6 +39,7 @@ http://www.cnblogs.com/softlin/p/5675890.html
 服务发现：环境变量和DNS
 
 **探针：**
+
 1）Liveness：许多长时间运行的应用程序最终会转换到broken状态，除非重新启动，否则无法恢复。Kubernetes提供了liveness probe来检测和补救这种情况
 
 2）readiness：确保流量无法到达未准备好的容器
@@ -99,7 +101,7 @@ kubectl get ns
 查询挂载情况：
 kubectl get pvc
 
-查询statefulset
+查询statefulset：
 kubectl get statefulset
 
 指定节点运行容器：
@@ -114,7 +116,7 @@ kubectl delete -f kuber-dashboard-svc.yaml
 deployment扩容：
 kubectl scale deployment nginx-deployment --replicas 3
 
-deployment自动扩容
+deployment自动扩容：
 kubectl autoscale deployment nginx-deployment --min=10 --max=15 --cpu-percent=80
 
 回滚：
@@ -122,6 +124,7 @@ kubectl rollout undo deployment/nginx-deployment
 
 
 Node管理：
+
 禁止pod调度到该节点上
 kubectl cordon <node>
 
