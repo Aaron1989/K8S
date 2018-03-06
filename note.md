@@ -124,7 +124,7 @@ kubectl autoscale deployment nginx-deployment --min=10 --max=15 --cpu-percent=80
 kubectl rollout undo deployment/nginx-deployment
 
 
-Node管理：
+**Node管理：**
 
 禁止pod调度到该节点上
 kubectl cordon <node>
